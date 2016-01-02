@@ -1,0 +1,65 @@
+.colorpick-container {
+    display: inline-block;
+    width: 23em;
+    height: 15em;
+    background-color: grey;
+    box-sizing: border-box;   
+}
+
+.colorpick-container > *,
+.colorpick-container > *:before,
+.colorpick-container > *:after {
+    box-sizing: inherit;
+}
+
+.colorpick-container > .colorpick-gradient {
+    float: left;
+    height: 100%;
+    width: 46.5%;
+    margin-right: 3.5%;
+    background: linear-gradient(45deg, blue, red);
+}
+
+.colorpick-container > .colorpick-spectrum {
+    float: left;
+    height: 100%;
+    width: 6.5%;
+    margin-right: 3.5%;
+    background-color: blue;
+}
+
+.colorpick-spectrum > .colorpick-spectrum-selector {
+    position: relative;
+    height: 1.5em;
+    width: 100%;
+    background-color: green;  
+}
+
+.colorpick-spectrum > .colorpick-spectrum-selector:after,
+.colorpick-spectrum > .colorpick-spectrum-selector:before {
+    position: absolute;
+    top: calc(50% - 7px);
+    display: inline-block;
+    content: '';
+    height: 0;
+    width: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+}
+
+.colorpick-spectrum > .colorpick-spectrum-selector:after {
+    border-left: 7px solid fuchsia;
+    left: -7px;
+}
+
+.colorpick-spectrum > .colorpick-spectrum-selector:before {
+    border-right: 7px solid fuchsia;
+    right: -7px;
+}
+
+.colorpick-container > .colorpick-options {
+    float: left;
+    height: 100%;
+    width: 40%;
+    background-color: yellow;
+}
