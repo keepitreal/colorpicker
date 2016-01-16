@@ -2,8 +2,8 @@
     display: inline-block;
     width: 23em;
     height: 15em;
-    background-color: grey;
-    box-sizing: border-box;   
+    box-sizing: border-box;
+    padding: 0.5em; 
 }
 
 .colorpick-container > *,
@@ -25,18 +25,28 @@
     height: 100%;
     width: 6.5%;
     margin-right: 3.5%;
-    background-color: blue;
 }
 
-.colorpick-spectrum > .colorpick-spectrum-selector {
+.colorpick-spectrum > .colorpick-spectrum-slider {
     position: relative;
-    height: 1.5em;
+    left: -10px;
+    height: 2em;
     width: 100%;
-    background-color: green;  
+    border: 10px solid transparent;
+    box-sizing: content-box;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    cursor: grab;
 }
 
-.colorpick-spectrum > .colorpick-spectrum-selector:after,
-.colorpick-spectrum > .colorpick-spectrum-selector:before {
+.colorpick-spectrum > .colorpick-spectrum-slider:active {
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}
+
+.colorpick-spectrum > .colorpick-spectrum-slider:after,
+.colorpick-spectrum > .colorpick-spectrum-slider:before {
     position: absolute;
     top: calc(50% - 7px);
     display: inline-block;
@@ -47,13 +57,13 @@
     border-bottom: 7px solid transparent;
 }
 
-.colorpick-spectrum > .colorpick-spectrum-selector:after {
-    border-left: 7px solid fuchsia;
+.colorpick-spectrum > .colorpick-spectrum-slider:after {
+    border-left: 7px solid rgb(175,175,175);
     left: -7px;
 }
 
-.colorpick-spectrum > .colorpick-spectrum-selector:before {
-    border-right: 7px solid fuchsia;
+.colorpick-spectrum > .colorpick-spectrum-slider:before {
+    border-right: 7px solid rgb(175,175,175);
     right: -7px;
 }
 
