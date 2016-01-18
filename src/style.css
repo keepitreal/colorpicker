@@ -6,6 +6,20 @@
     padding: 0.5em; 
 }
 
+.colorpick-container .cf:before,
+.colorpick-container .cf:after {
+    content: ' ';
+    display: table;
+}
+
+.colorpick-container .cf:after {
+    clear: both;
+}
+
+.colorpick-container .cf {
+    *zoom: 1;
+}
+
 .colorpick-container > *,
 .colorpick-container > *:before,
 .colorpick-container > *:after {
@@ -71,5 +85,68 @@
     float: left;
     height: 100%;
     width: 40%;
-    background-color: yellow;
+    padding: 0 0.5em;
+}
+
+.colorpick-options > .colorpick-preview {
+    width: 100%;
+    height: 15%;
+    background-color: blue;
+    margin-bottom: 0.5em;
+}
+
+.colorpick-options > .colorpick-values {
+    height: calc(85% - 0.5em);
+}
+
+.colorpick-hsb-rgb > ul.colorpick-value-list {
+    width: 50%;
+    padding: 0;
+    margin: 0 0 0.5em;
+    list-style: none;
+    float: left;
+    
+}
+
+ul.colorpick-value-list > li {
+    position: relative;
+    margin-bottom: 0.5em;
+}
+
+ul.colorpick-value-list > li:last-child {
+    margin-bottom: 0;
+}
+
+ul.colorpick-value-list.colorpick-hsb > li {
+    text-align: right;
+}
+
+ul.colorpick-value-list > li > input,
+.colorpick-hex > .colorpick-hex-input {
+    width: 80%;
+    text-align: right;
+    font-size: 0.85em;
+    outline: none;
+}
+
+ul.colorpick-value-list > li:after,
+.colorpick-hex:after {
+    content: attr(data-input-prompt);
+    display: block;
+    left: 0.2em;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: 0.85em;
+}
+
+ul.colorpick-value-list.colorpick-hsb > li:after {
+    left: 0.8em;
+}
+
+.colorpick-hex {
+    position: relative;
+    width: 60%;
 }

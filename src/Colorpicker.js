@@ -17,6 +17,7 @@ export default class Colorpicker {
         this.sliderDraggable = false;
         this.lastDragY = 0;
         this.dragBy = 0;
+        this.sliderPosition = 0;
         
         // Array of colors shown on the spectrum
         this.colorRangeStops = [
@@ -83,12 +84,37 @@ export default class Colorpicker {
             this.spectrumSlider.style.top = dragBy + 'px';
             this.dragBy = dragBy;
             this.lastDragY = yPos;
+            this.sliderPosition = sliderTop;
         }
     }
     
     endSliderDrag(ev) {
         if (this.sliderDraggable) {
             this.sliderDraggable = false;
+            this.selectColorFromSpectrum();
         }
+    }
+    
+    selectColorFromSpectrum() {
+        const colorRangeStops = this.colorRangeStops;
+        const precision = 100;
+        const ratio = Math.round((this.sliderPosition / this.spectrumRect.height) * (colorRangeStops.length * precision)) / precision;
+        const color1 = colorRangeStops[Math.floor(ratio)];
+        const color2 = colorRangeStops[Math.ceil(ratio)];
+        const selectedColor = this.computeColorDifference(color1, color2, Math.ceil(ratio) - ratio);
+        console.log(color1, color2, selectedColor, ratio);
+    }
+    
+    computeColorDifference(color1, color2, ratio) {
+        return {
+            r: this.computeSingleDifference(color1.r, color2.r, ratio),
+            g: this.computeSingleDifference(color1.g, color2.g, ratio),
+            b: this.computeSingleDifference(color1.b, color2.b, ratio)
+        }
+    }
+    
+    computeSingleDifference(color1, color2, ratio) {
+        const multiplicand = color1 > color2 ? -1 : 1;
+        return Math.round(color1 + (multiplicand * (Math.abs(color1 - color2) * ratio)));
     }
 }
