@@ -1,7 +1,5 @@
-import Converters from './Converters';
-
-export default class Colorpicker {
-    constructor(el) {
+(function() {
+    function Colorpick(el) {
         this.el = document.getElementById(el);
         
         // The selected color gradient
@@ -18,6 +16,9 @@ export default class Colorpicker {
         this.lastDragY = 0;
         this.dragBy = 0;
         this.sliderPosition = 0;
+        
+        // The preview pane that shows the selected color
+        this.colorPreview = this.el.querySelector('#colorpickPreview');
         
         // Array of colors shown on the spectrum
         this.colorRangeStops = [
@@ -46,8 +47,8 @@ export default class Colorpicker {
         this.setColorRangeStops();
     }
     
-    setColorRangeStops() {
-        let gradient = 'linear-gradient(to bottom,';
+    Colorpick.prototype.setColorRangeStops = function() {
+        var gradient = 'linear-gradient(to bottom,';
         
         this.colorRangeStops.forEach((color, index) => {
             gradient += 'rgb('
@@ -65,20 +66,20 @@ export default class Colorpicker {
         this.spectrum.style.background = gradient;
     }
     
-    startSliderDrag(ev) {
+    Colorpick.prototype.startSliderDrag = function(ev) {
         this.sliderDraggable = true;
         this.lastDragY = ev.screenY;
     }
     
-    dragSlider(ev) {
-        const spectrumRect = this.spectrumRect;
-        const spectrumSliderRect = this.spectrumSlider.getBoundingClientRect();
-        const sliderHalfHeight = spectrumSliderRect.height / 2;
-        const yPos = ev.screenY;
-        const dragBy = this.dragBy + yPos - this.lastDragY;
-        const sliderTop = sliderHalfHeight + dragBy;
-        const aboveSpectrum = sliderTop < 0;
-        const belowSpectrum = sliderTop > spectrumRect.height;
+    Colorpick.prototype.dragSlider = function(ev) {
+        var spectrumRect = this.spectrumRect;
+        var spectrumSliderRect = this.spectrumSlider.getBoundingClientRect();
+        var sliderHalfHeight = spectrumSliderRect.height / 2;
+        var yPos = ev.screenY;
+        var dragBy = this.dragBy + yPos - this.lastDragY;
+        var sliderTop = sliderHalfHeight + dragBy;
+        var aboveSpectrum = sliderTop < 0;
+        var belowSpectrum = sliderTop > spectrumRect.height;
         
         if (this.sliderDraggable && !aboveSpectrum && !belowSpectrum) {
             this.spectrumSlider.style.top = dragBy + 'px';
@@ -88,24 +89,25 @@ export default class Colorpicker {
         }
     }
     
-    endSliderDrag(ev) {
+    Colorpick.prototype.endSliderDrag = function(ev) {
         if (this.sliderDraggable) {
             this.sliderDraggable = false;
             this.selectColorFromSpectrum();
         }
     }
     
-    selectColorFromSpectrum() {
-        const colorRangeStops = this.colorRangeStops;
-        const precision = 100;
-        const ratio = Math.round((this.sliderPosition / this.spectrumRect.height) * (colorRangeStops.length * precision)) / precision;
-        const color1 = colorRangeStops[Math.floor(ratio)];
-        const color2 = colorRangeStops[Math.ceil(ratio)];
-        const selectedColor = this.computeColorDifference(color1, color2, Math.ceil(ratio) - ratio);
-        console.log(color1, color2, selectedColor, ratio);
+    Colorpick.prototype.selectColorFromSpectrum = function() {
+        var colorRangeStops = this.colorRangeStops;
+        var precision = 100;
+        var ratio = Math.round((this.sliderPosition / this.spectrumRect.height) * (colorRangeStops.length * precision)) / precision;
+        var color1 = colorRangeStops[Math.floor(ratio) - 1];
+        var color2 = colorRangeStops[Math.ceil(ratio) - 1];
+        var selectedColor = this.computeColorDifference(color1, color2, Math.ceil(ratio) - ratio);
+        
+        this.setColor(selectedColor);
     }
     
-    computeColorDifference(color1, color2, ratio) {
+    Colorpick.prototype.computeColorDifference = function(color1, color2, ratio) {
         return {
             r: this.computeSingleDifference(color1.r, color2.r, ratio),
             g: this.computeSingleDifference(color1.g, color2.g, ratio),
@@ -113,8 +115,21 @@ export default class Colorpicker {
         }
     }
     
-    computeSingleDifference(color1, color2, ratio) {
-        const multiplicand = color1 > color2 ? -1 : 1;
+    Colorpick.prototype.computeSingleDifference = function(color1, color2, ratio) {
+        var multiplicand = color1 > color2 ? -1 : 1;
         return Math.round(color1 + (multiplicand * (Math.abs(color1 - color2) * ratio)));
     }
-}
+    
+    Colorpick.prototype.setColor = function(rgb) {
+        this.colorPreview.style.background = this.objToRGBString(rgb);
+    }
+    
+    Colorpick.prototype.objToRGBString = function(rgb) {
+        var keys = Object.keys(rgb);
+        return 'rgb(' + keys.map(function(key) {
+            return rgb[key];
+        }).join(',') + ')';
+    }
+    
+    var colorpicker = new Colorpick('colorpicker');
+})();

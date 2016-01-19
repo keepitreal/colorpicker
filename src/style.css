@@ -126,6 +126,7 @@ ul.colorpick-value-list > li > input,
     width: 80%;
     text-align: right;
     font-size: 0.85em;
+    text-transform: uppercase;
     outline: none;
 }
 
@@ -148,5 +149,5 @@ ul.colorpick-value-list.colorpick-hsb > li:after {
 
 .colorpick-hex {
     position: relative;
-    width: 60%;
+    width: 65%;
 }
